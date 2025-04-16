@@ -9,7 +9,33 @@ function App() {
   return (
     <div className="App">
       {!isUnlocked ? (
-        <SlideToUnlock onUnlock={() => setIsUnlocked(true)} />
+        <div className="hero">
+          <div className="hero-content">
+            <div className="hero-text">
+              <h1 className="bounce-title">
+                {"Welcome".split("").map((letter, i) => (
+                  <span
+                    key={i}
+                    className="bounce-letter"
+                    style={{ animationDelay: `${i * 0.1}s` }}
+                  >
+                    {letter}
+                  </span>
+                ))}
+              </h1>
+              <p>
+                marsodev portfolio{" "}
+                <img
+                  src="src/assets/images/logo.png"
+                  alt="Marsodev Logo"
+                  className="inline-logo"
+                />
+              </p>
+            </div>
+          </div>
+
+          <SlideToUnlock onUnlock={() => setIsUnlocked(true)} />
+        </div>
       ) : (
         <div className="home">
           <h1>Bienvenue 🚀</h1>

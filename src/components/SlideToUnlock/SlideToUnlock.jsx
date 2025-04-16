@@ -17,6 +17,7 @@ const SlideToUnlock = ({ onUnlock }) => {
   const [startX, setStartX] = useState(0);
   const [offsetX, setOffsetX] = useState(START_OFFSET);
   const [lastOffset, setLastOffset] = useState(START_OFFSET);
+  const [trailWidth, setTrailWidth] = useState(0);
 
   const maxOffset = () => {
     const container = containerRef.current;
@@ -46,7 +47,7 @@ const SlideToUnlock = ({ onUnlock }) => {
     setOffsetX(boundedOffset);
 
     if (trailRef.current) {
-      trailRef.current.style.width = boundedOffset + 25 + "px";
+      setTrailWidth(boundedOffset + 25);
     }
 
     const buttonBox = buttonRef.current?.getBoundingClientRect();
@@ -120,7 +121,11 @@ const SlideToUnlock = ({ onUnlock }) => {
       onTouchMove={handleMove}
       onTouchEnd={handleEnd}
     >
-      <div className="slide-trail" ref={trailRef}></div>
+      <div
+        className="slide-trail"
+        ref={trailRef}
+        style={{ width: trailWidth }}
+      ></div>
       <div className="slide-text">{renderText()}</div>
       <div
         className="slide-button"
