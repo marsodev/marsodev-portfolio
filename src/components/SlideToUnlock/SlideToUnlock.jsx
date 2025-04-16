@@ -17,7 +17,6 @@ const SlideToUnlock = ({ onUnlock }) => {
   const [startX, setStartX] = useState(0);
   const [offsetX, setOffsetX] = useState(START_OFFSET);
   const [lastOffset, setLastOffset] = useState(START_OFFSET);
-  const [trailWidth, setTrailWidth] = useState(0);
 
   const maxOffset = () => {
     const container = containerRef.current;
@@ -47,7 +46,7 @@ const SlideToUnlock = ({ onUnlock }) => {
     setOffsetX(boundedOffset);
 
     if (trailRef.current) {
-      setTrailWidth(boundedOffset + 25);
+      trailRef.current.style.width = `${boundedOffset + 25}px`;
     }
 
     const buttonBox = buttonRef.current?.getBoundingClientRect();
@@ -97,7 +96,6 @@ const SlideToUnlock = ({ onUnlock }) => {
     const text = "Swipe to unlock";
     return text.split("").map((char, i) => {
       const opacity = clearedLetters.current.has(i) ? 0 : 1;
-
       return (
         <span
           key={i}
@@ -121,18 +119,12 @@ const SlideToUnlock = ({ onUnlock }) => {
       onTouchMove={handleMove}
       onTouchEnd={handleEnd}
     >
-      <div
-        className="slide-trail"
-        ref={trailRef}
-        style={{ width: trailWidth }}
-      ></div>
+      <div className="slide-trail" ref={trailRef}></div>
       <div className="slide-text">{renderText()}</div>
       <div
         className="slide-button"
         ref={buttonRef}
-        style={{
-          transform: `translateX(${offsetX}px)`,
-        }}
+        style={{ transform: `translateX(${offsetX}px)` }}
         onMouseDown={handleStart}
         onTouchStart={handleStart}
       >

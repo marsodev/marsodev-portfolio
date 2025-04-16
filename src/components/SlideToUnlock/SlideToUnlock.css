@@ -63,7 +63,8 @@
   z-index: 2;
 }
 
-/* Medium screens */
+/* Responsive tweaks */
+
 @media (max-width: 768px) {
   .slide-container {
     max-width: 350px;
@@ -81,7 +82,6 @@
   }
 }
 
-/* Small screens */
 @media (max-width: 480px) {
   .slide-container {
     max-width: 300px;
