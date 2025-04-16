@@ -4,8 +4,6 @@ Bienvenue sur mon **portfolio**, une vitrine soignée de mon parcours et de mes 
 
 Ce site a été conçu comme un projet personnel de formation, dans le but de renforcer ma maîtrise de **ReactJS, de JavaScript** et du design web moderne. Il reflète à la fois mon évolution en tant que développeur et ma capacité à concevoir des interfaces web claires, réactives et engageantes.
 
----
-
 ## 🚀 Techno
 
 <div align="center">
