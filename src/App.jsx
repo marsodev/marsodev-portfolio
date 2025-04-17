@@ -18,7 +18,7 @@ function App() {
   });
 
   useEffect(() => {
-    document.body.style.overflow = isUnlocked ? "auto" : "hidden";
+    document.body.style.overflow = isUnlocked ? "hidden" : "hidden";
   }, [isUnlocked]);
 
   useEffect(() => {
