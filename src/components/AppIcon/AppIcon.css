@@ -1,0 +1,34 @@
+.app-icon-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.app-icon-box {
+  width: 70px;
+  height: 70px;
+  background-color: var(--app-bg);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.app-icon-box:hover {
+  transform: scale(1.05);
+}
+
+.app-icon-logo {
+  font-size: 32px;
+  color: var(--app-icon-color);
+}
+
+.app-icon-name {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--text-color);
+  text-align: center;
+}

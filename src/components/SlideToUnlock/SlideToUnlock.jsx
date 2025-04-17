@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
-import "./SlideToUnlock.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
+import "./SlideToUnlock.css";
 
 const SlideToUnlock = ({ onUnlock, className = "" }) => {
   const containerRef = useRef(null);
@@ -63,7 +63,6 @@ const SlideToUnlock = ({ onUnlock, className = "" }) => {
     desiredTrailWidth.current = boundedOffset + 25;
 
     const buttonBox = buttonRef.current?.getBoundingClientRect();
-
     lettersRef.current.forEach((el, i) => {
       if (!el) return;
       const letterBox = el.getBoundingClientRect();
@@ -77,7 +76,6 @@ const SlideToUnlock = ({ onUnlock, className = "" }) => {
       if (direction === "right" && isOverlapping) {
         clearedLetters.current.add(i);
       }
-
       if (
         direction === "left" &&
         clearedLetters.current.has(i) &&

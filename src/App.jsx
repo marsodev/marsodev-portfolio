@@ -1,18 +1,38 @@
 import React, { useState, useEffect } from "react";
+import { faGear } from "@fortawesome/free-solid-svg-icons";
 import SlideToUnlock from "./components/SlideToUnlock/SlideToUnlock";
-import logo from "./assets/images/logo.png";
+import HomeScreen from "./components/HomeScreen/HomeScreen";
+import SettingsApp from "./components/apps/SettingsApp/SettingsApp";
+import logoLight from "./assets/images/logo-light.png";
+import logoDark from "./assets/images/logo-dark.png";
+
 import "./styles/reset.css";
 import "./styles/app.css";
 
 function App() {
   const [isUnlocked, setIsUnlocked] = useState(false);
+  const [openedApp, setOpenedApp] = useState(null);
+  const [isDark, setIsDark] = useState(() => {
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme ? savedTheme === "dark" : true;
+  });
 
   useEffect(() => {
     document.body.style.overflow = isUnlocked ? "auto" : "hidden";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
   }, [isUnlocked]);
+
+  useEffect(() => {
+    document.body.className = isDark ? "dark-mode" : "light-mode";
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  }, [isDark]);
+
+  const apps = [
+    {
+      name: "Settings",
+      icon: faGear,
+      id: "settings", // juste un ID pour savoir quelle app ouvrir
+    },
+  ];
 
   return (
     <div className="App">
@@ -23,7 +43,11 @@ function App() {
               <h1>Welcome</h1>
               <p>
                 marsodev portfolio{" "}
-                <img src={logo} alt="Marsodev Logo" className="inline-logo" />
+                <img
+                  src={isDark ? logoLight : logoDark}
+                  alt="Marsodev Logo"
+                  className="inline-logo"
+                />
               </p>
             </div>
           </div>
@@ -34,8 +58,27 @@ function App() {
           />
         </div>
       ) : (
-        <div className="home">
-          <h1>Bienvenue 🚀</h1>
+        <div className="home-screen-wrapper">
+          <div className="device-screen">
+            {!openedApp ? (
+              <HomeScreen
+                apps={apps}
+                onOpenApp={(app) => setOpenedApp(app)}
+                isDark={isDark}
+                onBackToLanding={() => setIsUnlocked(false)}
+              />
+            ) : (
+              <div key={isDark} className="app-opened">
+                {openedApp.id === "settings" && (
+                  <SettingsApp
+                    isDark={isDark}
+                    toggleTheme={() => setIsDark((prev) => !prev)}
+                    onBackHome={() => setOpenedApp(null)}
+                  />
+                )}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
