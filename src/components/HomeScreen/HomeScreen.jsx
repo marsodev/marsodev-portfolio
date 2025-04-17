@@ -10,7 +10,6 @@ const HomeScreen = ({ apps, onOpenApp, isDark, onBackToLanding }) => {
       <div className="top-bar">
         <IconButton icon={faArrowLeft} onClick={onBackToLanding} />
       </div>
-
       <div className="apps-grid">
         {apps.map((app, index) => (
           <div

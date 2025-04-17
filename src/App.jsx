@@ -16,24 +16,42 @@ function App() {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme ? savedTheme === "dark" : true;
   });
+  const [isSoundOn, setIsSoundOn] = useState(() => {
+    const savedSound = localStorage.getItem("sound");
+    return savedSound ? savedSound === "on" : true;
+  });
 
   useEffect(() => {
-    document.body.style.overflow = isUnlocked ? "hidden" : "hidden";
-  }, [isUnlocked]);
+    document.body.style.overflow = "hidden";
+  }, []);
 
   useEffect(() => {
     document.body.className = isDark ? "dark-mode" : "light-mode";
     localStorage.setItem("theme", isDark ? "dark" : "light");
   }, [isDark]);
 
-  const apps = [
-    {
-      name: "Settings",
-      icon: faGear,
-      id: "settings",
-    },
-  ];
+  useEffect(() => {
+    localStorage.setItem("sound", isSoundOn ? "on" : "off");
+  }, [isSoundOn]);
 
+  const playSound = (audioUrl) => {
+    if (!isSoundOn) return;
+
+    const audio = new Audio(audioUrl);
+    audio.play();
+  };
+
+  const apps = [
+    { name: "Settings", icon: faGear, id: "settings-1" },
+    { name: "Settings", icon: faGear, id: "settings-2" },
+    { name: "Settings", icon: faGear, id: "settings-3" },
+    { name: "Settings", icon: faGear, id: "settings-4" },
+    { name: "Settings", icon: faGear, id: "settings-5" },
+    { name: "Settings", icon: faGear, id: "settings-6" },
+    { name: "Settings", icon: faGear, id: "settings-7" },
+    { name: "Settings", icon: faGear, id: "settings-8" },
+    { name: "Settings", icon: faGear, id: "settings-9" },
+  ];
   return (
     <div className="App">
       {!isUnlocked ? (
@@ -45,13 +63,12 @@ function App() {
                 marsodev portfolio{" "}
                 <img
                   src={isDark ? logoLight : logoDark}
-                  alt="Marsodev Logo"
+                  alt="Logo"
                   className="inline-logo"
                 />
               </p>
             </div>
           </div>
-
           <SlideToUnlock
             onUnlock={() => setIsUnlocked(true)}
             className="fade-slider"
@@ -73,6 +90,8 @@ function App() {
                   <SettingsApp
                     isDark={isDark}
                     toggleTheme={() => setIsDark((prev) => !prev)}
+                    isSoundOn={isSoundOn}
+                    toggleSound={() => setIsSoundOn((prev) => !prev)}
                     onBackHome={() => setOpenedApp(null)}
                   />
                 )}

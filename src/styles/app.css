@@ -1,16 +1,3 @@
-html,
-body {
-  height: 100vh; /* fallback */
-  height: 100dvh; /* 🔥 solution moderne */
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: black;
-  font-family: "Inter", sans-serif;
-  color: white;
-}
-
 :root {
   --background-color: black;
   --text-color: white;
@@ -27,77 +14,34 @@ body {
   --app-icon-color: black;
 }
 
-.dark-mode {
-  --background-color: black;
-  --text-color: white;
-  --device-bg: #1a1a1a;
-}
-
-.home-screen-wrapper {
+html,
+body {
+  height: 100dvh;
   width: 100%;
-  height: 100vh; /* fallback */
-  height: 100dvh; /* 🔥 */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
   background-color: var(--background-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  box-sizing: border-box;
-  overflow: hidden;
+  color: var(--text-color);
+  font-family: "Inter", sans-serif;
 }
 
-.device-screen {
-  width: 90%;
-  max-width: 500px;
-  height: 90%;
-  max-height: 700px;
-  background-color: var(--device-bg);
-  border-radius: 40px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-}
-
-.app-opened,
-.home-screen {
-  flex: 1;
-  overflow-y: auto; /* ✅ Scroll uniquement dans une app ouverte */
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.device-screen::-webkit-scrollbar {
-  width: 8px;
-}
-
-.device-screen::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-}
-
-.dark-mode .device-screen::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.light-mode .device-screen::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.hero {
-  height: 100vh; /* fallback */
-  height: 100dvh; /* 🔥 */
+.App {
+  height: 100dvh;
   width: 100%;
-  background: inherit;
   display: flex;
   flex-direction: column;
+}
+
+.hero,
+.home-screen-wrapper {
+  height: 100dvh;
+  width: 100%;
+  display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  padding: 20px;
-  box-sizing: border-box;
+  background-color: var(--background-color);
+  flex-direction: column;
 }
 
 .hero-content {
@@ -112,11 +56,12 @@ body {
   font-weight: 700;
   font-size: 4rem;
   margin: 0;
+  color: var(--text-color);
 }
 
 .hero-text p {
   font-size: 1.5rem;
-  margin: 4px 0 0 0;
+  margin: 4px 0 0;
   opacity: 0.8;
   display: flex;
   align-items: center;
@@ -125,8 +70,8 @@ body {
 
 .inline-logo {
   height: 1.2em;
-  vertical-align: middle;
   margin-left: 6px;
+  vertical-align: middle;
 }
 
 .fade-block {
@@ -145,13 +90,42 @@ body {
   }
 }
 
-@media (max-width: 768px) {
-  .device-screen {
-    max-width: 90%;
-    max-height: 85%;
-    border-radius: 30px;
-  }
+.device-screen {
+  width: 90%;
+  max-width: 500px;
+  height: 90%;
+  max-height: 700px;
+  background-color: var(--device-bg);
+  border-radius: 40px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
 
+.app-opened {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.device-screen::-webkit-scrollbar {
+  width: 8px;
+}
+
+.device-screen::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.light-mode .device-screen::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
   .hero-text h1 {
     font-size: 3rem;
   }
@@ -162,12 +136,11 @@ body {
 
 @media (max-width: 480px) {
   .device-screen {
-    max-width: 95%;
-    max-height: 75%;
+    max-width: 85%;
+    max-height: 85%;
     border-radius: 20px;
-    padding: 15px;
+    margin: 15px;
   }
-
   .hero-text h1 {
     font-size: 2.5rem;
   }
