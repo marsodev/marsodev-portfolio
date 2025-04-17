@@ -1,14 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./SlideToUnlock.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 
-const SlideToUnlock = ({ onUnlock }) => {
+const SlideToUnlock = ({ onUnlock, className = "" }) => {
   const containerRef = useRef(null);
   const buttonRef = useRef(null);
   const trailRef = useRef(null);
   const lettersRef = useRef([]);
   const clearedLetters = useRef(new Set());
+
+  const requestRef = useRef();
+  const desiredTrailWidth = useRef(0);
 
   const START_OFFSET = 8;
   const END_OFFSET = 8;
@@ -24,6 +27,18 @@ const SlideToUnlock = ({ onUnlock }) => {
     if (!container || !button) return 0;
     return container.offsetWidth - button.offsetWidth - END_OFFSET;
   };
+
+  useEffect(() => {
+    const animateTrail = () => {
+      if (trailRef.current) {
+        trailRef.current.style.width = `${desiredTrailWidth.current}px`;
+      }
+      requestRef.current = requestAnimationFrame(animateTrail);
+    };
+    requestRef.current = requestAnimationFrame(animateTrail);
+
+    return () => cancelAnimationFrame(requestRef.current);
+  }, []);
 
   const handleStart = (e) => {
     setDragging(true);
@@ -45,9 +60,7 @@ const SlideToUnlock = ({ onUnlock }) => {
     setLastOffset(boundedOffset);
     setOffsetX(boundedOffset);
 
-    if (trailRef.current) {
-      trailRef.current.style.width = `${boundedOffset + 25}px`;
-    }
+    desiredTrailWidth.current = boundedOffset + 25;
 
     const buttonBox = buttonRef.current?.getBoundingClientRect();
 
@@ -86,9 +99,7 @@ const SlideToUnlock = ({ onUnlock }) => {
       setOffsetX(START_OFFSET);
       setLastOffset(START_OFFSET);
       clearedLetters.current = new Set();
-      if (trailRef.current) {
-        trailRef.current.style.width = "0px";
-      }
+      desiredTrailWidth.current = 0;
     }
   };
 
@@ -111,7 +122,7 @@ const SlideToUnlock = ({ onUnlock }) => {
 
   return (
     <div
-      className="slide-container"
+      className={`slide-container ${className}`}
       ref={containerRef}
       onMouseMove={handleMove}
       onMouseUp={handleEnd}

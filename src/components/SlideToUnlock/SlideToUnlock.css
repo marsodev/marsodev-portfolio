@@ -1,6 +1,6 @@
 .slide-container {
   width: 90%;
-  max-width: 400px;
+  max-width: 300px;
   height: 60px;
   background-color: #111;
   border-radius: 999px;
@@ -41,6 +41,7 @@
   font-weight: 500;
   pointer-events: none;
   white-space: nowrap;
+  left: 35%;
 }
 
 .slide-letter {
@@ -63,35 +64,14 @@
   z-index: 2;
 }
 
-/* Responsive tweaks */
-
-@media (max-width: 768px) {
-  .slide-container {
-    max-width: 350px;
-    height: 52px;
-  }
-
-  .slide-button {
-    width: 44px;
-    height: 44px;
-    font-size: 20px;
-  }
-
-  .slide-text {
-    font-size: 15px;
-  }
+.fade-slider {
+  opacity: 0;
+  animation: fadeInUp 1.2s ease forwards;
 }
 
 @media (max-width: 480px) {
   .slide-container {
-    max-width: 300px;
-    height: 48px;
-  }
-
-  .slide-button {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
+    max-width: 250px;
   }
 
   .slide-text {
@@ -101,14 +81,7 @@
 
 @media (max-width: 300px) {
   .slide-container {
-    max-width: 260px;
-    height: 44px;
-  }
-
-  .slide-button {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
+    max-width: 200px;
   }
 
   .slide-text {

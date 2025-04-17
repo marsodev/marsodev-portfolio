@@ -19,18 +19,8 @@ function App() {
       {!isUnlocked ? (
         <div className="hero">
           <div className="hero-content">
-            <div className="hero-text">
-              <h1 className="bounce-title">
-                {"Welcome".split("").map((letter, i) => (
-                  <span
-                    key={i}
-                    className="bounce-letter"
-                    style={{ animationDelay: `${i * 0.1}s` }}
-                  >
-                    {letter}
-                  </span>
-                ))}
-              </h1>
+            <div className="hero-text fade-block">
+              <h1>Welcome</h1>
               <p>
                 marsodev portfolio{" "}
                 <img src={logo} alt="Marsodev Logo" className="inline-logo" />
@@ -38,7 +28,10 @@ function App() {
             </div>
           </div>
 
-          <SlideToUnlock onUnlock={() => setIsUnlocked(true)} />
+          <SlideToUnlock
+            onUnlock={() => setIsUnlocked(true)}
+            className="fade-slider"
+          />
         </div>
       ) : (
         <div className="home">
