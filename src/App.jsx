@@ -42,15 +42,8 @@ function App() {
   };
 
   const apps = [
-    { name: "Settings", icon: faGear, id: "settings-1" },
+    { name: "Settings", icon: faGear, id: "settings" },
     { name: "Settings", icon: faGear, id: "settings-2" },
-    { name: "Settings", icon: faGear, id: "settings-3" },
-    { name: "Settings", icon: faGear, id: "settings-4" },
-    { name: "Settings", icon: faGear, id: "settings-5" },
-    { name: "Settings", icon: faGear, id: "settings-6" },
-    { name: "Settings", icon: faGear, id: "settings-7" },
-    { name: "Settings", icon: faGear, id: "settings-8" },
-    { name: "Settings", icon: faGear, id: "settings-9" },
   ];
   return (
     <div className="App">
