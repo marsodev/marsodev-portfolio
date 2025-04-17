@@ -61,7 +61,7 @@ body {
 .app-opened,
 .home-screen {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: auto; /* ✅ Scroll uniquement dans une app ouverte */
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
