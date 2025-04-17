@@ -30,7 +30,7 @@ function App() {
     {
       name: "Settings",
       icon: faGear,
-      id: "settings", // juste un ID pour savoir quelle app ouvrir
+      id: "settings",
     },
   ];
 
