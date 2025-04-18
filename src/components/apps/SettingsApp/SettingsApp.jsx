@@ -1,14 +1,14 @@
 import React from "react";
 import "./SettingsApp.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMoon,
   faSun,
-  faArrowLeft,
   faVolumeUp,
   faVolumeMute,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "../../ui/IconButton/IconButton";
+import ToggleSwitch from "../../ui/ToggleSwitch/ToggleSwitch";
 
 const SettingsApp = ({
   isDark,
@@ -26,27 +26,23 @@ const SettingsApp = ({
 
       <div className="settings-content">
         <div className="settings-option">
-          <span>Theme</span>
-          <button className="option-button" onClick={toggleTheme}>
-            <FontAwesomeIcon
-              icon={isDark ? faSun : faMoon}
-              className="option-icon"
-            />
-            <span>
-              {isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            </span>
-          </button>
+          <div className="settings-label">Theme</div>
+          <ToggleSwitch
+            leftIcon={faSun}
+            rightIcon={faMoon}
+            isActive={isDark}
+            onToggle={toggleTheme}
+          />
         </div>
 
         <div className="settings-option">
-          <span>Sound</span>
-          <button className="option-button" onClick={toggleSound}>
-            <FontAwesomeIcon
-              icon={isSoundOn ? faVolumeUp : faVolumeMute}
-              className="option-icon"
-            />
-            <span>{isSoundOn ? "Sound ON" : "Sound OFF"}</span>
-          </button>
+          <div className="settings-label">Sound</div>
+          <ToggleSwitch
+            leftIcon={faVolumeMute}
+            rightIcon={faVolumeUp}
+            isActive={isSoundOn}
+            onToggle={toggleSound}
+          />
         </div>
       </div>
     </div>

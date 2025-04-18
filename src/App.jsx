@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import SlideToUnlock from "./components/SlideToUnlock/SlideToUnlock";
 import HomeScreen from "./components/HomeScreen/HomeScreen";
 import SettingsApp from "./components/apps/SettingsApp/SettingsApp";
+import ContactApp from "./components/apps/ContactApp/ContactApp";
 import logoLight from "./assets/images/logo-light.png";
 import logoDark from "./assets/images/logo-dark.png";
 
@@ -43,7 +45,7 @@ function App() {
 
   const apps = [
     { name: "Settings", icon: faGear, id: "settings" },
-    { name: "Settings", icon: faGear, id: "settings-2" },
+    { name: "Contact", icon: faEnvelope, id: "contact" },
   ];
   return (
     <div className="App">
@@ -87,6 +89,9 @@ function App() {
                     toggleSound={() => setIsSoundOn((prev) => !prev)}
                     onBackHome={() => setOpenedApp(null)}
                   />
+                )}
+                {openedApp.id === "contact" && (
+                  <ContactApp onBackHome={() => setOpenedApp(null)} />
                 )}
               </div>
             )}
