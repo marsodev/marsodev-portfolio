@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faGear, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import Wallpaper from "./components/Wallpaper/Wallpaper";
 import SlideToUnlock from "./components/SlideToUnlock/SlideToUnlock";
 import HomeScreen from "./components/HomeScreen/HomeScreen";
@@ -15,13 +14,20 @@ import "./styles/app.css";
 function App() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [openedApp, setOpenedApp] = useState(null);
+
   const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme ? savedTheme === "dark" : true;
   });
+
   const [isSoundOn, setIsSoundOn] = useState(() => {
     const savedSound = localStorage.getItem("sound");
     return savedSound ? savedSound === "on" : true;
+  });
+
+  const [isAnimationPaused, setIsAnimationPaused] = useState(() => {
+    const savedAnimation = localStorage.getItem("animationPaused");
+    return savedAnimation ? savedAnimation === "true" : false;
   });
 
   useEffect(() => {
@@ -37,9 +43,15 @@ function App() {
     localStorage.setItem("sound", isSoundOn ? "on" : "off");
   }, [isSoundOn]);
 
+  useEffect(() => {
+    localStorage.setItem(
+      "animationPaused",
+      isAnimationPaused ? "true" : "false"
+    );
+  }, [isAnimationPaused]);
+
   const playSound = (audioUrl) => {
     if (!isSoundOn) return;
-
     const audio = new Audio(audioUrl);
     audio.play();
   };
@@ -48,9 +60,10 @@ function App() {
     { name: "Settings", icon: faGear, id: "settings" },
     { name: "Contact", icon: faEnvelope, id: "contact" },
   ];
+
   return (
     <div className="App">
-      <Wallpaper />
+      <Wallpaper isPaused={isAnimationPaused} />
       {!isUnlocked ? (
         <div className="hero">
           <div className="hero-content">
@@ -89,6 +102,10 @@ function App() {
                     toggleTheme={() => setIsDark((prev) => !prev)}
                     isSoundOn={isSoundOn}
                     toggleSound={() => setIsSoundOn((prev) => !prev)}
+                    isAnimationPaused={isAnimationPaused}
+                    toggleAnimation={() =>
+                      setIsAnimationPaused((prev) => !prev)
+                    }
                     onBackHome={() => setOpenedApp(null)}
                   />
                 )}

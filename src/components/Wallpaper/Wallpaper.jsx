@@ -48,7 +48,7 @@ const generateBalancedIcons = (totalCount) => {
   return elements.sort(() => Math.random() - 0.5);
 };
 
-const Wallpaper = () => {
+const Wallpaper = ({ isPaused }) => {
   const [elements, setElements] = useState(generateBalancedIcons(40));
   const mouse = useRef({ x: 0, y: 0 });
   const containerRef = useRef(null);
@@ -64,20 +64,22 @@ const Wallpaper = () => {
 
     let frame;
     const animate = () => {
-      setElements((prev) =>
-        prev.map((el) => ({
-          ...el,
-          x:
-            el.baseX +
-            Math.sin(Date.now() / 2000 + el.id) * el.driftRange +
-            mouse.current.x * 5,
-          y:
-            el.baseY +
-            Math.cos(Date.now() / 2000 + el.id) * el.driftRange +
-            mouse.current.y * 5,
-          rotation: el.rotation + el.speedRotation,
-        }))
-      );
+      if (!isPaused) {
+        setElements((prev) =>
+          prev.map((el) => ({
+            ...el,
+            x:
+              el.baseX +
+              Math.sin(Date.now() / 2000 + el.id) * el.driftRange +
+              mouse.current.x * 5,
+            y:
+              el.baseY +
+              Math.cos(Date.now() / 2000 + el.id) * el.driftRange +
+              mouse.current.y * 5,
+            rotation: el.rotation + el.speedRotation,
+          }))
+        );
+      }
       frame = requestAnimationFrame(animate);
     };
 
@@ -87,7 +89,7 @@ const Wallpaper = () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []);
+  }, [isPaused]); // ← important de réagir à isPaused
 
   return (
     <div className="wallpaper" ref={containerRef}>

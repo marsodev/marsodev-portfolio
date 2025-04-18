@@ -6,6 +6,8 @@ import {
   faVolumeUp,
   faVolumeMute,
   faArrowLeft,
+  faPause, // On ajoute une icône pour l'animation
+  faPlay,
 } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "../../ui/IconButton/IconButton";
 import ToggleSwitch from "../../ui/ToggleSwitch/ToggleSwitch";
@@ -15,6 +17,8 @@ const SettingsApp = ({
   toggleTheme,
   isSoundOn,
   toggleSound,
+  isAnimationPaused,
+  toggleAnimation,
   onBackHome,
 }) => {
   return (
@@ -42,6 +46,16 @@ const SettingsApp = ({
             rightIcon={faVolumeUp}
             isActive={isSoundOn}
             onToggle={toggleSound}
+          />
+        </div>
+
+        <div className="settings-option">
+          <div className="settings-label">Animations</div>
+          <ToggleSwitch
+            leftIcon={faPause}
+            rightIcon={faPlay}
+            isActive={!isAnimationPaused}
+            onToggle={toggleAnimation}
           />
         </div>
       </div>
