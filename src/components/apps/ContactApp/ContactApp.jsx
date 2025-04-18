@@ -20,7 +20,7 @@ const ContactApp = ({ onBackHome }) => {
     setMessages((prev) => [
       ...prev,
       { fromMe: true, text: inputValue.trim() },
-      { fromMe: false, text: "Votre message a été envoyé ✅" },
+      { fromMe: false, text: "J'ai bien reçu ton message ✅" },
     ]);
     setInputValue("");
     if (textareaRef.current) {

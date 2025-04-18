@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import Wallpaper from "./components/Wallpaper/Wallpaper";
 import SlideToUnlock from "./components/SlideToUnlock/SlideToUnlock";
 import HomeScreen from "./components/HomeScreen/HomeScreen";
 import SettingsApp from "./components/apps/SettingsApp/SettingsApp";
@@ -49,6 +50,7 @@ function App() {
   ];
   return (
     <div className="App">
+      <Wallpaper />
       {!isUnlocked ? (
         <div className="hero">
           <div className="hero-content">

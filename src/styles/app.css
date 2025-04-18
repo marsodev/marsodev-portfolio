@@ -3,6 +3,7 @@
   --text-color: white;
   --device-bg: #1a1a1a;
   --app-bg: #333333;
+  --screen-bg: #2020209b;
   --app-icon-color: white;
 }
 
@@ -11,6 +12,7 @@
   --text-color: black;
   --device-bg: #f7f7f7;
   --app-bg: #e8e8e8;
+  --screen-bg: #6e6e6e4a;
   --app-icon-color: black;
 }
 
@@ -94,14 +96,16 @@ body {
   width: 90%;
   max-width: 500px;
   height: 90%;
-  max-height: 700px;
-  background-color: var(--device-bg);
+  max-height: 760px;
+  background-color: var(--screen-bg);
   border-radius: 40px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .app-opened {
@@ -137,7 +141,6 @@ body {
 @media (max-width: 480px) {
   .device-screen {
     max-width: 85%;
-    max-height: 85%;
     border-radius: 20px;
     margin: 15px;
   }

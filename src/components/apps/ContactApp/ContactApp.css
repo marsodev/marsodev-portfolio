@@ -53,7 +53,7 @@
 .contact-textarea {
   flex: 1;
   resize: none;
-  background-color: var(--background-color);
+  background-color: var(--app-bg);
   border: 1px solid var(--app-bg);
   border-radius: 14px;
   outline: none;
