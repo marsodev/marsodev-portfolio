@@ -81,12 +81,12 @@ function App() {
           </div>
           <SlideToUnlock
             onUnlock={() => setIsUnlocked(true)}
-            className="fade-slider"
+            className="fade-block"
           />
         </div>
       ) : (
         <div className="home-screen-wrapper">
-          <div className="device-screen">
+          <div className="device-screen fade-block">
             {!openedApp ? (
               <HomeScreen
                 apps={apps}

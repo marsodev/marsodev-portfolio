@@ -4,8 +4,9 @@ import reactBlue from "../../assets/images/react.png";
 import reactRed from "../../assets/images/reactred.png";
 import reactYellow from "../../assets/images/reactyellow.png";
 import reactGreen from "../../assets/images/reactgreen.png";
+import reactPurple from "../../assets/images/reactpurple.png";
 
-const icons = [reactBlue, reactRed, reactYellow, reactGreen];
+const icons = [reactBlue, reactRed, reactYellow, reactGreen, reactPurple];
 
 const generateBalancedIcons = (totalCount) => {
   const elements = [];
@@ -43,8 +44,6 @@ const generateBalancedIcons = (totalCount) => {
       }
     }
   });
-
-  // Mélange un peu l'ordre final
   return elements.sort(() => Math.random() - 0.5);
 };
 
@@ -89,7 +88,7 @@ const Wallpaper = ({ isPaused }) => {
       cancelAnimationFrame(frame);
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [isPaused]); // ← important de réagir à isPaused
+  }, [isPaused]);
 
   return (
     <div className="wallpaper" ref={containerRef}>
