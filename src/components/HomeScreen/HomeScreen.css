@@ -7,8 +7,51 @@
 
 .top-bar {
   display: flex;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
+  height: 70px;
+  padding: 0 20px;
+  position: relative;
+}
+
+.top-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.top-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.system-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  opacity: 0.8;
+  user-select: none;
+}
+
+.top-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.battery-icon {
+  font-size: 20px;
+  color: var(--text-color);
+}
+
+.time-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
 }
 
 .apps-grid {
@@ -51,4 +94,35 @@
   margin-top: 8px;
   font-size: 0.9rem;
   color: var(--text-color);
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    padding: 0 15px;
+  }
+
+  .battery-icon {
+    font-size: 18px;
+  }
+
+  .time-text {
+    font-size: 0.9rem;
+  }
+
+  .system-name {
+    font-size: 0.9rem;
+  }
+
+  .app-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .app-logo {
+    font-size: 28px;
+  }
+
+  .app-name {
+    font-size: 0.85rem;
+  }
 }

@@ -3,6 +3,7 @@
   --text-color: white;
   --device-bg: #1a1a1a;
   --app-bg: #333333;
+  --app-bg-hover: #444444;
   --screen-bg: #2020209b;
   --app-icon-color: white;
 }
@@ -12,6 +13,7 @@
   --text-color: black;
   --device-bg: #f7f7f7;
   --app-bg: #e8e8e8;
+  --app-bg-hover: #f3f3f3;
   --screen-bg: #6e6e6e4a;
   --app-icon-color: black;
 }

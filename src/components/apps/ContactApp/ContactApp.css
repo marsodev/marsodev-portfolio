@@ -4,6 +4,7 @@
   height: 100%;
   padding: 20px;
   color: var(--text-color);
+  overflow: hidden; /* Important pour empêcher tout l'app de scroller */
 }
 
 .contact-header {
@@ -13,13 +14,20 @@
   margin-bottom: 20px;
 }
 
+/* Partie conversation (avec scroll uniquement ici) */
 .contact-messages {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow-y: auto;
+  overflow-y: auto; /* ✅ Scroll ici */
   padding-right: 5px;
+  scrollbar-width: none; /* Firefox */
+}
+
+.contact-messages::-webkit-scrollbar {
+  width: 0px; /* Chrome/Safari - Cache la scrollbar */
+  height: 0px;
 }
 
 .message {
@@ -48,6 +56,7 @@
   border-radius: 20px;
   padding: 10px 14px;
   margin-top: 20px;
+  flex-shrink: 0;
 }
 
 .contact-textarea {
@@ -62,10 +71,14 @@
   font-family: "Inter", sans-serif;
   padding: 10px 16px;
   height: 44px;
-  max-height: 100px;
+  max-height: 120px;
   overflow-y: auto;
   line-height: 1.4;
-  transition: border 0.3s ease, background-color 0.3s ease;
+  transition: border 0.3s ease, background-color 0.3s ease, height 0.2s ease;
+}
+
+.contact-textarea::-webkit-scrollbar {
+  display: none;
 }
 
 .contact-textarea::placeholder {
@@ -113,7 +126,6 @@
   background-color: #d0d0d0;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .contact-app {
     padding: 15px;

@@ -12,7 +12,7 @@
 
 .icon-button:hover {
   transform: scale(1.05);
-  background-color: var(--app-bg-hover, #333);
+  background-color: var(--app-bg-hover);
 }
 
 .icon {

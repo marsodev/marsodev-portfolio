@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { faArrowLeft, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "../../ui/IconButton/IconButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +13,7 @@ const ContactApp = ({ onBackHome }) => {
   ]);
   const [inputValue, setInputValue] = useState("");
   const textareaRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
   const handleSend = () => {
     if (inputValue.trim() === "") return;
@@ -24,18 +25,25 @@ const ContactApp = ({ onBackHome }) => {
     ]);
     setInputValue("");
     if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = "44px";
     }
   };
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
+
     if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${Math.min(
-        textareaRef.current.scrollHeight,
-        120
-      )}px`;
+      const textarea = textareaRef.current;
+      textarea.style.height = "auto";
+
+      const baseHeight = 44;
+      const scrollHeight = textarea.scrollHeight;
+
+      if (scrollHeight > baseHeight) {
+        textarea.style.height = `${Math.min(scrollHeight, 120)}px`;
+      } else {
+        textarea.style.height = `${baseHeight}px`;
+      }
     }
   };
 
@@ -45,6 +53,11 @@ const ContactApp = ({ onBackHome }) => {
       handleSend();
     }
   };
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   return (
     <div className="contact-app">
@@ -67,6 +80,7 @@ const ContactApp = ({ onBackHome }) => {
             ))}
           </div>
         ))}
+        <div ref={messagesEndRef}></div>
       </div>
 
       <div className="contact-input-area">
