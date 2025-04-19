@@ -6,7 +6,7 @@ import {
   faVolumeUp,
   faVolumeMute,
   faArrowLeft,
-  faPause, // On ajoute une icône pour l'animation
+  faPause,
   faPlay,
 } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "../../ui/IconButton/IconButton";

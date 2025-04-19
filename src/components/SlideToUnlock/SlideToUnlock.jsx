@@ -30,8 +30,13 @@ const SlideToUnlock = ({ onUnlock, className = "" }) => {
 
   useEffect(() => {
     const animateTrail = () => {
-      if (trailRef.current) {
-        trailRef.current.style.width = `${desiredTrailWidth.current}px`;
+      if (trailRef.current && containerRef.current) {
+        const containerWidth = containerRef.current.offsetWidth || 1;
+        const progress = Math.min(
+          desiredTrailWidth.current / containerWidth,
+          1
+        );
+        trailRef.current.style.transform = `scaleX(${progress})`;
       }
       requestRef.current = requestAnimationFrame(animateTrail);
     };

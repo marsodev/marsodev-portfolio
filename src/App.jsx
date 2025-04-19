@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { faGear, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import {
+  faGear,
+  faEnvelope,
+  faFolderOpen,
+} from "@fortawesome/free-solid-svg-icons";
 import Wallpaper from "./components/Wallpaper/Wallpaper";
 import SlideToUnlock from "./components/SlideToUnlock/SlideToUnlock";
 import HomeScreen from "./components/HomeScreen/HomeScreen";
 import SettingsApp from "./components/apps/SettingsApp/SettingsApp";
 import ContactApp from "./components/apps/ContactApp/ContactApp";
+import ProjectsApp from "./components/apps/ProjectsApp/ProjectsApp";
 import logoLight from "./assets/images/logo-light.png";
 import logoDark from "./assets/images/logo-dark.png";
 
@@ -59,6 +64,7 @@ function App() {
   const apps = [
     { name: "Settings", icon: faGear, id: "settings" },
     { name: "Contact", icon: faEnvelope, id: "contact" },
+    { name: "Projects", icon: faFolderOpen, id: "projects" },
   ];
 
   return (
@@ -111,6 +117,9 @@ function App() {
                 )}
                 {openedApp.id === "contact" && (
                   <ContactApp onBackHome={() => setOpenedApp(null)} />
+                )}
+                {openedApp.id === "projects" && (
+                  <ProjectsApp onBackHome={() => setOpenedApp(null)} />
                 )}
               </div>
             )}

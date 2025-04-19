@@ -12,7 +12,7 @@
 .wallpaper-icon {
   position: absolute;
   opacity: 0.4;
-  transition: transform 0.2s linear;
-  will-change: transform, left, top;
+  will-change: transform;
   user-select: none;
+  transition: transform 0.2s linear;
 }

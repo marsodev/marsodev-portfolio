@@ -4,7 +4,7 @@
   height: 100%;
   padding: 20px;
   color: var(--text-color);
-  overflow: hidden; /* Important pour empêcher tout l'app de scroller */
+  overflow: hidden;
 }
 
 .contact-header {
@@ -14,19 +14,22 @@
   margin-bottom: 20px;
 }
 
-/* Partie conversation (avec scroll uniquement ici) */
+.contact-header h2 {
+  font-weight: 600;
+}
+
 .contact-messages {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow-y: auto; /* ✅ Scroll ici */
+  overflow-y: auto;
   padding-right: 5px;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 
 .contact-messages::-webkit-scrollbar {
-  width: 0px; /* Chrome/Safari - Cache la scrollbar */
+  width: 0px;
   height: 0px;
 }
 

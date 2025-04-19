@@ -2,6 +2,7 @@
   --background-color: black;
   --text-color: white;
   --device-bg: #1a1a1a;
+  --toggle-bg: #1a1a1a;
   --app-bg: #333333;
   --app-bg-hover: #444444;
   --screen-bg: #2020209b;
@@ -12,6 +13,7 @@
   --background-color: white;
   --text-color: black;
   --device-bg: #f7f7f7;
+  --toggle-bg: #cccccc;
   --app-bg: #e8e8e8;
   --app-bg-hover: #f3f3f3;
   --screen-bg: #6e6e6e4a;
@@ -95,10 +97,10 @@ body {
 }
 
 .device-screen {
-  width: 90%;
+  width: 80%;
   max-width: 500px;
-  height: 90%;
-  max-height: 760px;
+  height: 100%;
+  max-height: 660px;
   background-color: var(--screen-bg);
   border-radius: 40px;
   padding: 20px;
@@ -106,8 +108,8 @@ body {
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 
 .app-opened {

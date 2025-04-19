@@ -13,6 +13,10 @@
   margin-bottom: 30px;
 }
 
+.settings-header h2 {
+  font-weight: 600;
+}
+
 .settings-content {
   display: flex;
   flex-direction: column;
@@ -41,7 +45,6 @@
   background-color: #e0e0e0;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .settings-app {
     padding: 15px;
