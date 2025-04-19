@@ -2,29 +2,23 @@ import React from "react";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import projet1 from "../../../assets/images/projet1.png";
+import projet2 from "../../../assets/images/projet2.png";
 import IconButton from "../../ui/IconButton/IconButton";
 import "./ProjectsApp.css";
 
 const projects = [
   {
-    title: "Test 1",
-    description: "Petit projet de test n°1",
+    title: "marsodev Portfolio",
+    description: "Building my portfolio marsOS",
     link: "#",
     image: projet1,
     techs: ["faReact", "faJs", "faCss3Alt"],
   },
   {
-    title: "Test 1",
-    description: "Petit projet de test n°1",
+    title: "Rezo Game",
+    description: "Game project phone simulation",
     link: "#",
-    image: projet1,
-    techs: ["faReact", "faJs", "faCss3Alt"],
-  },
-  {
-    title: "Test 1",
-    description: "Petit projet de test n°1",
-    link: "#",
-    image: projet1,
+    image: projet2,
     techs: ["faReact", "faJs", "faCss3Alt"],
   },
 ];

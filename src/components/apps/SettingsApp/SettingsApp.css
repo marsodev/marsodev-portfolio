@@ -1,7 +1,7 @@
 .settings-app {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 15px;
   height: 100%;
   color: var(--text-color);
 }
