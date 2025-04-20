@@ -4,6 +4,7 @@ import {
   faEnvelope,
   faFolderOpen,
   faUserGear,
+  faCode,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faSpotify } from "@fortawesome/free-brands-svg-icons";
 import Wallpaper from "./components/Wallpaper/Wallpaper";
@@ -15,9 +16,10 @@ import ProjectsApp from "./components/apps/ProjectsApp/ProjectsApp";
 import GitHubApp from "./components/apps/GitHubApp/GitHubApp";
 import SkillsApp from "./components/apps/SkillsApp/SkillsApp";
 import SpotifyApp from "./components/apps/SpotifyApp/SpotifyApp";
+import DevCounterApp from "./components/apps/Calendev/Calendev";
 import logoLight from "./assets/images/logo-light.png";
 import logoDark from "./assets/images/logo-dark.png";
-
+import tapSound from "./assets/sound/tap.mp3";
 import "./styles/reset.css";
 import "./styles/app.css";
 
@@ -70,10 +72,16 @@ function App() {
     { name: "Settings", icon: faGear, id: "settings" },
     { name: "Contact", icon: faEnvelope, id: "contact" },
     { name: "Projects", icon: faFolderOpen, id: "projects" },
-    { name: "GitHub", icon: faGithub, id: "github" },
     { name: "Skills", icon: faUserGear, id: "skills" },
+    { name: "GitHub", icon: faGithub, id: "github" },
     { name: "Spotify", icon: faSpotify, id: "spotify" },
+    { name: "Calendev", icon: faCode, id: "devcounter" },
   ];
+
+  const handleOpenApp = (app) => {
+    playSound(tapSound);
+    setOpenedApp(app);
+  };
 
   return (
     <div className="App">
@@ -104,7 +112,7 @@ function App() {
             {!openedApp ? (
               <HomeScreen
                 apps={apps}
-                onOpenApp={(app) => setOpenedApp(app)}
+                onOpenApp={handleOpenApp}
                 isDark={isDark}
                 onBackToLanding={() => setIsUnlocked(false)}
               />
@@ -137,6 +145,9 @@ function App() {
                 )}
                 {openedApp.id === "spotify" && (
                   <SpotifyApp onBackHome={() => setOpenedApp(null)} />
+                )}
+                {openedApp.id === "devcounter" && (
+                  <DevCounterApp onBackHome={() => setOpenedApp(null)} />
                 )}
               </div>
             )}

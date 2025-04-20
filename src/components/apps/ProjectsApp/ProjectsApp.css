@@ -89,14 +89,6 @@
   opacity: 0.8;
 }
 
-.light-mode .project-card {
-  background-color: #e0e0e0;
-}
-
-.light-mode .project-card:hover {
-  background-color: #d5d5d5;
-}
-
 @media (max-width: 768px) {
   .projects-header {
     gap: 15px;

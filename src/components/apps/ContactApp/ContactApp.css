@@ -113,22 +113,6 @@
   transform: scale(1.1);
 }
 
-.light-mode .message {
-  background-color: #e0e0e0;
-}
-
-.light-mode .contact-input-area {
-  background-color: #f7f7f7;
-}
-
-.light-mode .contact-textarea {
-  background-color: #ffffff;
-}
-
-.light-mode .send-button {
-  background-color: #d0d0d0;
-}
-
 @media (max-width: 768px) {
   .contact-header {
     gap: 15px;

@@ -66,10 +66,6 @@
   background-color: #34a8c5;
 }
 
-.light-mode .skill-item {
-  background-color: #e0e0e0;
-}
-
 @media (max-width: 768px) {
   .skill-item {
     padding: 12px 16px;

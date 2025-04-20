@@ -122,10 +122,6 @@
   background-color: #216e39;
 }
 
-.light-mode .stat-card {
-  background-color: #e0e0e0;
-}
-
 .loading-screen {
   display: flex;
   flex-direction: column;
