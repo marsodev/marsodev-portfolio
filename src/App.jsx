@@ -3,6 +3,7 @@ import {
   faGear,
   faEnvelope,
   faFolderOpen,
+  faUserGear,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import Wallpaper from "./components/Wallpaper/Wallpaper";
@@ -12,6 +13,7 @@ import SettingsApp from "./components/apps/SettingsApp/SettingsApp";
 import ContactApp from "./components/apps/ContactApp/ContactApp";
 import ProjectsApp from "./components/apps/ProjectsApp/ProjectsApp";
 import GitHubApp from "./components/apps/GitHubApp/GitHubApp";
+import SkillsApp from "./components/apps/SkillsApp/SkillsApp";
 import logoLight from "./assets/images/logo-light.png";
 import logoDark from "./assets/images/logo-dark.png";
 
@@ -68,6 +70,7 @@ function App() {
     { name: "Contact", icon: faEnvelope, id: "contact" },
     { name: "Projects", icon: faFolderOpen, id: "projects" },
     { name: "GitHub", icon: faGithub, id: "github" },
+    { name: "Skills", icon: faUserGear, id: "skills" },
   ];
 
   return (
@@ -126,6 +129,9 @@ function App() {
                 )}
                 {openedApp.id === "github" && (
                   <GitHubApp onBackHome={() => setOpenedApp(null)} />
+                )}
+                {openedApp.id === "skills" && (
+                  <SkillsApp onBackHome={() => setOpenedApp(null)} />
                 )}
               </div>
             )}

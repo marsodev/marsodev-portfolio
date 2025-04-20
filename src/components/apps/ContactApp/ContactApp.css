@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 20px;
+  padding: 15px;
   color: var(--text-color);
   overflow: hidden;
 }
@@ -130,18 +130,13 @@
 }
 
 @media (max-width: 768px) {
-  .contact-app {
-    padding: 15px;
-  }
   .contact-header {
     gap: 15px;
+    margin-bottom: 20px;
   }
 }
 
 @media (max-width: 480px) {
-  .contact-app {
-    padding: 10px;
-  }
   .contact-header {
     gap: 10px;
   }
@@ -151,9 +146,6 @@
 }
 
 @media (max-width: 300px) {
-  .contact-app {
-    padding: 8px;
-  }
   .message {
     font-size: 0.85rem;
   }

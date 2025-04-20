@@ -1,7 +1,7 @@
 .projects-app {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 15px;
   height: 100%;
   color: var(--text-color);
   overflow: hidden;
@@ -98,9 +98,6 @@
 }
 
 @media (max-width: 768px) {
-  .projects-app {
-    padding: 15px;
-  }
   .projects-header {
     gap: 15px;
     margin-bottom: 20px;
@@ -119,9 +116,6 @@
 }
 
 @media (max-width: 480px) {
-  .projects-app {
-    padding: 10px;
-  }
   .projects-header {
     gap: 10px;
     margin-bottom: 15px;
@@ -138,9 +132,6 @@
 }
 
 @media (max-width: 300px) {
-  .projects-app {
-    padding: 8px;
-  }
   .project-card h3 {
     font-size: 1rem;
   }
