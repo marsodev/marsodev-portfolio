@@ -5,7 +5,7 @@ import {
   faFolderOpen,
   faUserGear,
 } from "@fortawesome/free-solid-svg-icons";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faSpotify } from "@fortawesome/free-brands-svg-icons";
 import Wallpaper from "./components/Wallpaper/Wallpaper";
 import SlideToUnlock from "./components/SlideToUnlock/SlideToUnlock";
 import HomeScreen from "./components/HomeScreen/HomeScreen";
@@ -14,6 +14,7 @@ import ContactApp from "./components/apps/ContactApp/ContactApp";
 import ProjectsApp from "./components/apps/ProjectsApp/ProjectsApp";
 import GitHubApp from "./components/apps/GitHubApp/GitHubApp";
 import SkillsApp from "./components/apps/SkillsApp/SkillsApp";
+import SpotifyApp from "./components/apps/SpotifyApp/SpotifyApp";
 import logoLight from "./assets/images/logo-light.png";
 import logoDark from "./assets/images/logo-dark.png";
 
@@ -71,6 +72,7 @@ function App() {
     { name: "Projects", icon: faFolderOpen, id: "projects" },
     { name: "GitHub", icon: faGithub, id: "github" },
     { name: "Skills", icon: faUserGear, id: "skills" },
+    { name: "Spotify", icon: faSpotify, id: "spotify" },
   ];
 
   return (
@@ -132,6 +134,9 @@ function App() {
                 )}
                 {openedApp.id === "skills" && (
                   <SkillsApp onBackHome={() => setOpenedApp(null)} />
+                )}
+                {openedApp.id === "spotify" && (
+                  <SpotifyApp onBackHome={() => setOpenedApp(null)} />
                 )}
               </div>
             )}
