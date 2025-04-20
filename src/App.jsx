@@ -26,6 +26,7 @@ import "./styles/app.css";
 function App() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [openedApp, setOpenedApp] = useState(null);
+  const tapAudio = new Audio(tapSound);
 
   const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -62,10 +63,10 @@ function App() {
     );
   }, [isAnimationPaused]);
 
-  const playSound = (audioUrl) => {
+  const playSound = () => {
     if (!isSoundOn) return;
-    const audio = new Audio(audioUrl);
-    audio.play();
+    tapAudio.currentTime = 0;
+    tapAudio.play();
   };
 
   const apps = [
