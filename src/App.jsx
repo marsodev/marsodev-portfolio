@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   faGear,
   faEnvelope,
@@ -26,22 +26,26 @@ import "./styles/app.css";
 function App() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [openedApp, setOpenedApp] = useState(null);
-  const tapAudio = new Audio(tapSound);
 
-  const [isDark, setIsDark] = useState(() => {
-    const savedTheme = localStorage.getItem("theme");
-    return savedTheme ? savedTheme === "dark" : true;
-  });
+  const [isDark, setIsDark] = useState(
+    () => localStorage.getItem("theme") === "dark"
+  );
+  const [isSoundOn, setIsSoundOn] = useState(
+    () => localStorage.getItem("sound") !== "off"
+  );
+  const [isAnimationPaused, setIsAnimationPaused] = useState(
+    () => localStorage.getItem("animationPaused") === "true"
+  );
 
-  const [isSoundOn, setIsSoundOn] = useState(() => {
-    const savedSound = localStorage.getItem("sound");
-    return savedSound ? savedSound === "on" : true;
-  });
+  const tapAudio = useMemo(() => new Audio(tapSound), []);
 
-  const [isAnimationPaused, setIsAnimationPaused] = useState(() => {
-    const savedAnimation = localStorage.getItem("animationPaused");
-    return savedAnimation ? savedAnimation === "true" : false;
-  });
+  const saveToLocalStorage = (key, value) => {
+    try {
+      localStorage.setItem(key, value);
+    } catch (error) {
+      console.error("Error saving to localStorage", error);
+    }
+  };
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -49,18 +53,15 @@ function App() {
 
   useEffect(() => {
     document.body.className = isDark ? "dark-mode" : "light-mode";
-    localStorage.setItem("theme", isDark ? "dark" : "light");
+    saveToLocalStorage("theme", isDark ? "dark" : "light");
   }, [isDark]);
 
   useEffect(() => {
-    localStorage.setItem("sound", isSoundOn ? "on" : "off");
+    saveToLocalStorage("sound", isSoundOn ? "on" : "off");
   }, [isSoundOn]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "animationPaused",
-      isAnimationPaused ? "true" : "false"
-    );
+    saveToLocalStorage("animationPaused", isAnimationPaused ? "true" : "false");
   }, [isAnimationPaused]);
 
   const playSound = () => {
@@ -80,8 +81,40 @@ function App() {
   ];
 
   const handleOpenApp = (app) => {
-    playSound(tapSound);
+    playSound();
     setOpenedApp(app);
+  };
+
+  const renderApp = () => {
+    const appProps = { onBackHome: () => setOpenedApp(null) };
+    switch (openedApp?.id) {
+      case "settings":
+        return (
+          <SettingsApp
+            {...appProps}
+            isDark={isDark}
+            toggleTheme={() => setIsDark((prev) => !prev)}
+            isSoundOn={isSoundOn}
+            toggleSound={() => setIsSoundOn((prev) => !prev)}
+            isAnimationPaused={isAnimationPaused}
+            toggleAnimation={() => setIsAnimationPaused((prev) => !prev)}
+          />
+        );
+      case "contact":
+        return <ContactApp {...appProps} />;
+      case "projects":
+        return <ProjectsApp {...appProps} />;
+      case "github":
+        return <GitHubApp {...appProps} />;
+      case "skills":
+        return <SkillsApp {...appProps} />;
+      case "spotify":
+        return <SpotifyApp {...appProps} />;
+      case "devcounter":
+        return <DevCounterApp {...appProps} />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -96,8 +129,9 @@ function App() {
                 marsodev portfolio{" "}
                 <img
                   src={isDark ? logoLight : logoDark}
-                  alt="Logo"
+                  alt="Marsodev logo"
                   className="inline-logo"
+                  role="img"
                 />
               </p>
             </div>
@@ -118,39 +152,7 @@ function App() {
                 onBackToLanding={() => setIsUnlocked(false)}
               />
             ) : (
-              <div key={isDark} className="app-opened">
-                {openedApp.id === "settings" && (
-                  <SettingsApp
-                    isDark={isDark}
-                    toggleTheme={() => setIsDark((prev) => !prev)}
-                    isSoundOn={isSoundOn}
-                    toggleSound={() => setIsSoundOn((prev) => !prev)}
-                    isAnimationPaused={isAnimationPaused}
-                    toggleAnimation={() =>
-                      setIsAnimationPaused((prev) => !prev)
-                    }
-                    onBackHome={() => setOpenedApp(null)}
-                  />
-                )}
-                {openedApp.id === "contact" && (
-                  <ContactApp onBackHome={() => setOpenedApp(null)} />
-                )}
-                {openedApp.id === "projects" && (
-                  <ProjectsApp onBackHome={() => setOpenedApp(null)} />
-                )}
-                {openedApp.id === "github" && (
-                  <GitHubApp onBackHome={() => setOpenedApp(null)} />
-                )}
-                {openedApp.id === "skills" && (
-                  <SkillsApp onBackHome={() => setOpenedApp(null)} />
-                )}
-                {openedApp.id === "spotify" && (
-                  <SpotifyApp onBackHome={() => setOpenedApp(null)} />
-                )}
-                {openedApp.id === "devcounter" && (
-                  <DevCounterApp onBackHome={() => setOpenedApp(null)} />
-                )}
-              </div>
+              <div className="app-opened">{renderApp()}</div>
             )}
           </div>
         </div>
