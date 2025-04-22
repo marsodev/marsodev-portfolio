@@ -1,7 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { faArrowLeft, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import IconButton from "../../ui/IconButton/IconButton";
+import {
+  faArrowLeft,
+  faPaperPlane,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import IconButton from "../../ui/IconButton/IconButton";
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,
@@ -13,6 +17,7 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
+import sha256 from "crypto-js/sha256";
 
 import "./ContactApp.css";
 
@@ -30,45 +35,43 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 const ContactApp = ({ onBackHome }) => {
-  const [messages, setMessages] = useState([
-    {
-      fromMe: false,
-      text: "Hey ! Tu souhaites me contacter ? Laisse-moi un petit message 😊",
-    },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSending, setIsSending] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [adminEmail, setAdminEmail] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
+  const [adminError, setAdminError] = useState("");
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [adminMessages, setAdminMessages] = useState([]);
+  const [selectedMessage, setSelectedMessage] = useState(null);
+
   const textareaRef = useRef(null);
   const messagesEndRef = useRef(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user);
       } else {
-        signInAnonymously(auth).catch((error) => {
-          console.error("Erreur Auth Anonyme :", error);
-        });
+        signInAnonymously(auth).catch((error) => {});
       }
     });
-
     return () => unsubscribe();
   }, []);
 
   useEffect(() => {
     const fetchMessages = async () => {
-      if (!currentUser) return;
-
+      if (!currentUser || isAdmin) return;
       try {
         const q = query(
           collection(db, "messages"),
           where("userId", "==", currentUser.uid),
           where("timestamp", ">=", Timestamp.fromDate(new Date(0)))
         );
-
         const querySnapshot = await getDocs(q);
-
         const fetchedMessages = querySnapshot.docs
           .map((doc) => ({
             fromMe: true,
@@ -76,8 +79,7 @@ const ContactApp = ({ onBackHome }) => {
             timestamp: doc.data().timestamp?.toDate() || new Date(0),
           }))
           .sort((a, b) => a.timestamp - b.timestamp);
-
-        setMessages((prev) => [
+        setMessages([
           {
             fromMe: false,
             text: "Hey ! Tu souhaites me contacter ? Laisse-moi un petit message 😊",
@@ -85,43 +87,25 @@ const ContactApp = ({ onBackHome }) => {
           ...fetchedMessages,
         ]);
       } catch (error) {
-        console.error("Erreur lors de la récupération des messages :", error);
       } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000);
+        setTimeout(() => setIsLoading(false), 1000);
       }
     };
-
     fetchMessages();
-  }, [currentUser]);
+  }, [currentUser, isAdmin]);
 
   const handleSend = async () => {
-    if (!currentUser) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          fromMe: false,
-          text: "⏳ Connexion en cours... réessaie dans un instant !",
-        },
-      ]);
-      return;
-    }
-
-    if (inputValue.trim() === "") return;
-
+    if (!currentUser || inputValue.trim() === "" || isSending) return;
+    setIsSending(true);
     try {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-
       const q = query(
         collection(db, "messages"),
         where("userId", "==", currentUser.uid),
         where("timestamp", ">=", Timestamp.fromDate(today))
       );
-
       const querySnapshot = await getDocs(q);
-
       if (querySnapshot.size >= 3) {
         setMessages((prev) => [
           ...prev,
@@ -130,6 +114,7 @@ const ContactApp = ({ onBackHome }) => {
             text: "❌ Tu as déjà envoyé 3 messages aujourd'hui.",
           },
         ]);
+        setIsSending(false);
         return;
       }
       await addDoc(collection(db, "messages"), {
@@ -137,40 +122,27 @@ const ContactApp = ({ onBackHome }) => {
         text: inputValue.trim(),
         timestamp: Timestamp.now(),
       });
-
       setMessages((prev) => [
         ...prev,
         { fromMe: true, text: inputValue.trim() },
         { fromMe: false, text: "✅ Message bien reçu !" },
       ]);
       setInputValue("");
-      if (textareaRef.current) {
-        textareaRef.current.style.height = "44px";
-      }
+      if (textareaRef.current) textareaRef.current.style.height = "44px";
     } catch (error) {
-      console.error("Erreur lors de l'envoi :", error);
-      setMessages((prev) => [
-        ...prev,
-        { fromMe: false, text: "❌ Erreur lors de l'envoi du message." },
-      ]);
+    } finally {
+      setIsSending(false);
     }
   };
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
-
     if (textareaRef.current) {
-      const textarea = textareaRef.current;
-      textarea.style.height = "auto";
-
-      const baseHeight = 44;
-      const scrollHeight = textarea.scrollHeight;
-
-      if (scrollHeight > baseHeight) {
-        textarea.style.height = `${Math.min(scrollHeight, 120)}px`;
-      } else {
-        textarea.style.height = `${baseHeight}px`;
-      }
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${Math.min(
+        textareaRef.current.scrollHeight,
+        120
+      )}px`;
     }
   };
 
@@ -181,25 +153,110 @@ const ContactApp = ({ onBackHome }) => {
     }
   };
 
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  const handleAdminLogin = async () => {
+    try {
+      const q = collection(db, "accounts");
+      const querySnapshot = await getDocs(q);
+      const accounts = querySnapshot.docs.map((doc) => doc.data());
+      const enteredHash = sha256(adminPassword).toString();
+      const matchedAccount = accounts.find(
+        (acc) => acc.email === adminEmail && acc.passwordHash === enteredHash
+      );
+      if (matchedAccount) {
+        setIsAdmin(true);
+        fetchAdminMessages();
+        setShowAdminLogin(false);
+        setAdminError("");
+      } else {
+        setAdminError("❌ Login ou mot de passe incorrect !");
+      }
+    } catch (error) {
+      setAdminError("❌ Erreur serveur, réessayez.");
     }
-  }, [messages]);
+  };
+
+  const fetchAdminMessages = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "messages"));
+      const fetched = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        timestamp: doc.data().timestamp?.toDate() || new Date(0),
+      }));
+      setAdminMessages(fetched.sort((a, b) => b.timestamp - a.timestamp));
+    } catch (error) {}
+  };
+
+  const handleAdminLogout = () => {
+    setIsAdmin(false);
+    setAdminEmail("");
+    setAdminPassword("");
+    setSelectedMessage(null);
+  };
 
   return (
     <div className="contact-app">
       <div className="contact-header">
-        <IconButton icon={faArrowLeft} onClick={onBackHome} />
-        <h2>Contact</h2>
+        <IconButton
+          icon={faArrowLeft}
+          onClick={isAdmin ? handleAdminLogout : onBackHome}
+        />
+        <h2>{isAdmin ? "Admin Panel" : "Contact"}</h2>
+        {!isAdmin && (
+          <button
+            onClick={() => setShowAdminLogin(true)}
+            className="admin-button"
+          >
+            <FontAwesomeIcon icon={faUser} />
+            Admin
+          </button>
+        )}
       </div>
 
       <div className="contact-messages">
         {isLoading ? (
           <div className="loading-screen">
             <div className="spinner"></div>
-            <p>Chargement de vos messages...</p>
+            <p>Chargement...</p>
           </div>
+        ) : isAdmin ? (
+          selectedMessage ? (
+            <div className="admin-detail">
+              <div className="admin-header">
+                <IconButton
+                  icon={faArrowLeft}
+                  onClick={() => setSelectedMessage(null)}
+                />
+              </div>
+              <div className="admin-message">
+                <p className="admin-userid">
+                  Utilisateur : {selectedMessage.userId}
+                </p>
+                <p className="admin-text">{selectedMessage.text}</p>
+              </div>
+            </div>
+          ) : (
+            <div className="admin-panel">
+              <div className="admin-list">
+                {adminMessages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className="admin-card"
+                    onClick={() => setSelectedMessage(msg)}
+                  >
+                    <div className="admin-content">
+                      <p className="admin-text-preview">
+                        {msg.text.slice(0, 100)}...
+                      </p>
+                      <p className="admin-time">
+                        {msg.timestamp.toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
         ) : (
           <>
             {messages.map((msg, index) => (
@@ -219,20 +276,58 @@ const ContactApp = ({ onBackHome }) => {
           </>
         )}
       </div>
-      <div className="contact-input-area">
-        <textarea
-          ref={textareaRef}
-          className="contact-textarea"
-          placeholder="Écris ton message..."
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          rows={1}
-        />
-        <button className="send-button" onClick={handleSend}>
-          <FontAwesomeIcon icon={faPaperPlane} />
-        </button>
-      </div>
+
+      {!isAdmin && (
+        <div className="contact-input-area">
+          <textarea
+            ref={textareaRef}
+            className="contact-textarea"
+            placeholder="Écris ton message..."
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            rows={1}
+          />
+          <button
+            className="send-button"
+            onClick={handleSend}
+            disabled={isSending}
+          >
+            {isSending ? (
+              <div className="mini-spinner"></div>
+            ) : (
+              <FontAwesomeIcon icon={faPaperPlane} />
+            )}
+          </button>
+        </div>
+      )}
+
+      {showAdminLogin && (
+        <div className="admin-login-modal">
+          <input
+            type="email"
+            placeholder="Login admin"
+            value={adminEmail}
+            onChange={(e) => setAdminEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Mot de passe"
+            value={adminPassword}
+            onChange={(e) => setAdminPassword(e.target.value)}
+          />
+          {adminError && <p className="admin-error">{adminError}</p>}
+          <button onClick={handleAdminLogin}>Se connecter</button>
+          <button
+            onClick={() => {
+              setShowAdminLogin(false);
+              setAdminError("");
+            }}
+          >
+            Annuler
+          </button>
+        </div>
+      )}
     </div>
   );
 };
