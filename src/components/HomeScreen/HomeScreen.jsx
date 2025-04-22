@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./HomeScreen.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowLeft,
-  faBatteryThreeQuarters,
-} from "@fortawesome/free-solid-svg-icons";
-import IconButton from "../ui/IconButton/IconButton";
+import TopBar from "./TopBar";
+import AppIcon from "./AppIcon";
 
 const HomeScreen = ({ apps, onOpenApp, isDark, onBackToLanding }) => {
   const [time, setTime] = useState("");
@@ -24,36 +20,10 @@ const HomeScreen = ({ apps, onOpenApp, isDark, onBackToLanding }) => {
 
   return (
     <div className="home-screen">
-      <div className="top-bar">
-        <div className="top-left">
-          <IconButton icon={faArrowLeft} onClick={onBackToLanding} />
-        </div>
-
-        <div className="top-center">
-          <span className="system-name">marsOS v1.0</span>
-        </div>
-
-        <div className="top-right">
-          <FontAwesomeIcon
-            icon={faBatteryThreeQuarters}
-            className="battery-icon"
-          />
-          <div className="time-text">{time}</div>
-        </div>
-      </div>
-
+      <TopBar time={time} onBackToLanding={onBackToLanding} />
       <div className="apps-grid">
         {apps.map((app, index) => (
-          <div
-            key={index}
-            className="app-wrapper"
-            onClick={() => onOpenApp(app)}
-          >
-            <div className="app-icon">
-              <FontAwesomeIcon icon={app.icon} className="app-logo" />
-            </div>
-            <span className="app-name">{app.name}</span>
-          </div>
+          <AppIcon key={index} app={app} onClick={() => onOpenApp(app)} />
         ))}
       </div>
     </div>

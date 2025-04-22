@@ -1,16 +1,17 @@
 import React from "react";
-import "./SettingsApp.css";
 import {
+  faArrowLeft,
   faMoon,
   faSun,
   faVolumeUp,
   faVolumeMute,
-  faArrowLeft,
   faPause,
   faPlay,
 } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "../../ui/IconButton/IconButton";
-import ToggleSwitch from "../../ui/ToggleSwitch/ToggleSwitch";
+import SettingsOption from "./SettingsOption";
+
+import "./SettingsApp.css";
 
 const SettingsApp = ({
   isDark,
@@ -29,35 +30,27 @@ const SettingsApp = ({
       </div>
 
       <div className="settings-content">
-        <div className="settings-option">
-          <div className="settings-label">Theme</div>
-          <ToggleSwitch
-            leftIcon={faSun}
-            rightIcon={faMoon}
-            isActive={isDark}
-            onToggle={toggleTheme}
-          />
-        </div>
-
-        <div className="settings-option">
-          <div className="settings-label">Sound</div>
-          <ToggleSwitch
-            leftIcon={faVolumeMute}
-            rightIcon={faVolumeUp}
-            isActive={isSoundOn}
-            onToggle={toggleSound}
-          />
-        </div>
-
-        <div className="settings-option">
-          <div className="settings-label">Animations</div>
-          <ToggleSwitch
-            leftIcon={faPause}
-            rightIcon={faPlay}
-            isActive={!isAnimationPaused}
-            onToggle={toggleAnimation}
-          />
-        </div>
+        <SettingsOption
+          label="Theme"
+          leftIcon={faSun}
+          rightIcon={faMoon}
+          isActive={isDark}
+          onToggle={toggleTheme}
+        />
+        <SettingsOption
+          label="Sound"
+          leftIcon={faVolumeMute}
+          rightIcon={faVolumeUp}
+          isActive={isSoundOn}
+          onToggle={toggleSound}
+        />
+        <SettingsOption
+          label="Animations"
+          leftIcon={faPause}
+          rightIcon={faPlay}
+          isActive={!isAnimationPaused}
+          onToggle={toggleAnimation}
+        />
       </div>
     </div>
   );

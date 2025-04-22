@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "../../ui/IconButton/IconButton";
+
+import GitHubProfile from "./GitHubProfile";
+import GitHubStats from "./GitHubStats";
+import GitHubContributions from "./GitHubContributions";
+import LoadingScreen from "./LoadingScreen";
+
 import "./GitHubApp.css";
 
 const GitHubApp = ({ onBackHome }) => {
@@ -23,20 +29,20 @@ const GitHubApp = ({ onBackHome }) => {
           },
           body: JSON.stringify({
             query: `
-            {
-              user(login: "marsodev") {
-                contributionsCollection {
-                  contributionCalendar {
-                    weeks {
-                      contributionDays {
-                        date
-                        contributionCount
+              {
+                user(login: "marsodev") {
+                  contributionsCollection {
+                    contributionCalendar {
+                      weeks {
+                        contributionDays {
+                          date
+                          contributionCount
+                        }
                       }
                     }
                   }
                 }
               }
-            }
             `,
           }),
         });
@@ -51,25 +57,15 @@ const GitHubApp = ({ onBackHome }) => {
         const last30Days = sortedDays.slice(-30);
         setContributions(last30Days);
 
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000);
+        setTimeout(() => setIsLoading(false), 1000);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching GitHub data:", error);
         setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
-
-  const getLevel = (count) => {
-    if (count >= 20) return 4;
-    if (count >= 10) return 3;
-    if (count >= 5) return 2;
-    if (count >= 1) return 1;
-    return 0;
-  };
 
   return (
     <div className="github-app">
@@ -80,49 +76,12 @@ const GitHubApp = ({ onBackHome }) => {
 
       <div className="github-content">
         {isLoading ? (
-          <div className="loading-screen">
-            <div className="spinner"></div>
-            <p>Loading my GitHub data...</p>
-          </div>
+          <LoadingScreen text="Loading my GitHub data..." />
         ) : (
           <>
-            <div className="profile-section">
-              <img src={profile.avatar_url} alt="Avatar" className="avatar" />
-              <h3>{profile.login}</h3>
-              <p>{profile.bio}</p>
-            </div>
-
-            <div className="stats">
-              <div className="stat-card">
-                <strong>Repos</strong>
-                <span>{profile.public_repos}</span>
-              </div>
-              <div className="stat-card">
-                <strong>Followers</strong>
-                <span>{profile.followers}</span>
-              </div>
-              <div className="stat-card">
-                <strong>Following</strong>
-                <span>{profile.following}</span>
-              </div>
-            </div>
-
-            <div className="contribution-section">
-              <h3>Last 30 Days Contributions</h3>
-              <div className="contribution-grid">
-                {contributions.map((day, index) => (
-                  <div
-                    key={index}
-                    className={`day-square level-${getLevel(
-                      day.contributionCount
-                    )}`}
-                    title={`${day.date}: ${day.contributionCount} contribution${
-                      day.contributionCount !== 1 ? "s" : ""
-                    }`}
-                  ></div>
-                ))}
-              </div>
-            </div>
+            <GitHubProfile profile={profile} />
+            <GitHubStats profile={profile} />
+            <GitHubContributions contributions={contributions} />
           </>
         )}
       </div>

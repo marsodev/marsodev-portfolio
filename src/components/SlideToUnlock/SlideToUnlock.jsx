@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
+import SlideTrail from "./SlideTrail";
+import SlideText from "./SlideText";
+import SlideButton from "./SlideButton";
 import "./SlideToUnlock.css";
 
 const SlideToUnlock = ({ onUnlock, className = "" }) => {
@@ -106,23 +107,6 @@ const SlideToUnlock = ({ onUnlock, className = "" }) => {
     }
   };
 
-  const renderText = () => {
-    const text = "Swipe to unlock";
-    return text.split("").map((char, i) => {
-      const opacity = clearedLetters.current.has(i) ? 0 : 1;
-      return (
-        <span
-          key={i}
-          ref={(el) => (lettersRef.current[i] = el)}
-          className="slide-letter"
-          style={{ opacity }}
-        >
-          {char}
-        </span>
-      );
-    });
-  };
-
   return (
     <div
       className={`slide-container ${className}`}
@@ -133,17 +117,13 @@ const SlideToUnlock = ({ onUnlock, className = "" }) => {
       onTouchMove={handleMove}
       onTouchEnd={handleEnd}
     >
-      <div className="slide-trail" ref={trailRef}></div>
-      <div className="slide-text">{renderText()}</div>
-      <div
-        className="slide-button"
-        ref={buttonRef}
-        style={{ transform: `translateX(${offsetX}px)` }}
-        onMouseDown={handleStart}
-        onTouchStart={handleStart}
-      >
-        <FontAwesomeIcon icon={faArrowRightLong} />
-      </div>
+      <SlideTrail ref={trailRef} />
+      <SlideText lettersRef={lettersRef} clearedLetters={clearedLetters} />
+      <SlideButton
+        offsetX={offsetX}
+        onStart={handleStart}
+        buttonRef={buttonRef}
+      />
     </div>
   );
 };

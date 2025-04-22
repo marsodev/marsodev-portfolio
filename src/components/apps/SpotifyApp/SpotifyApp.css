@@ -80,6 +80,7 @@
 }
 
 .listen-button {
+  width: 150px;
   margin-top: 8px;
   display: inline-flex;
   align-items: center;

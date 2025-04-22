@@ -1,47 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import projet1 from "../../../assets/images/projet1.png";
-import projet2 from "../../../assets/images/projet2.png";
 import IconButton from "../../ui/IconButton/IconButton";
+
+import { projects } from "./projectsData";
+import { iconMap } from "./iconMap";
+import ProjectCard from "./ProjectCard";
+import LoadingScreen from "./LoadingScreen";
+
 import "./ProjectsApp.css";
 
-const projects = [
-  {
-    title: "marsodev Portfolio",
-    description: "Building my portfolio marsOS",
-    link: "#",
-    image: projet1,
-    techs: ["faReact", "faJs", "faCss3Alt"],
-  },
-  {
-    title: "Rezo Game",
-    description: "Game project phone simulation",
-    link: "#",
-    image: projet2,
-    techs: ["faReact", "faJs", "faCss3Alt"],
-  },
-];
-
-import {
-  faReact,
-  faJs,
-  faCss3Alt,
-  faHtml5,
-  faNodeJs,
-  faPython,
-} from "@fortawesome/free-brands-svg-icons";
-
-const iconMap = {
-  faReact,
-  faJs,
-  faCss3Alt,
-  faHtml5,
-  faNodeJs,
-  faPython,
-};
-
 const ProjectsApp = ({ onBackHome }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsLoading(false), 1000);
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <div className="projects-app">
       <div className="projects-header">
@@ -50,34 +25,13 @@ const ProjectsApp = ({ onBackHome }) => {
       </div>
 
       <div className="projects-list">
-        {projects.map((project, index) => (
-          <a
-            key={index}
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-card"
-          >
-            <img
-              src={project.image}
-              alt={project.title}
-              className="project-image"
-            />
-            <div className="project-content">
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
-              <div className="project-techs">
-                {project.techs.map((tech, idx) => (
-                  <FontAwesomeIcon
-                    key={idx}
-                    icon={iconMap[tech]}
-                    className="tech-icon"
-                  />
-                ))}
-              </div>
-            </div>
-          </a>
-        ))}
+        {isLoading ? (
+          <LoadingScreen text="Loading projects..." />
+        ) : (
+          projects.map((project, index) => (
+            <ProjectCard key={index} project={project} />
+          ))
+        )}
       </div>
     </div>
   );

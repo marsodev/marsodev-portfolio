@@ -145,6 +145,7 @@
   font-weight: 600;
 }
 
+/* Animations */
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -160,6 +161,7 @@
   }
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .stats {
     margin-top: 0;
@@ -167,10 +169,12 @@
     gap: 20px;
     align-items: center;
   }
+
   .stat-card {
     padding: 12px 16px;
     width: 70px;
   }
+
   .contribution-grid {
     max-width: 150px;
   }
@@ -181,6 +185,7 @@
     padding: 10px 12px;
     width: 65px;
   }
+
   .contribution-grid {
     max-width: 120px;
   }
@@ -191,6 +196,7 @@
     padding: 8px 10px;
     width: 60px;
   }
+
   .contribution-grid {
     max-width: 100px;
   }

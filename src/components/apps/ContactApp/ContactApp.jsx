@@ -1,9 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  faArrowLeft,
-  faPaperPlane,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import IconButton from "../../ui/IconButton/IconButton";
 import { initializeApp } from "firebase/app";
@@ -18,6 +14,12 @@ import {
 } from "firebase/firestore";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
 import sha256 from "crypto-js/sha256";
+
+import ContactMessages from "./ContactMessages";
+import AdminPanel from "./AdminPanel";
+import AdminLogin from "./AdminLogin";
+import ContactInput from "./ContactInput";
+import LoadingScreen from "./LoadingScreen";
 
 import "./ContactApp.css";
 
@@ -49,14 +51,13 @@ const ContactApp = ({ onBackHome }) => {
   const [selectedMessage, setSelectedMessage] = useState(null);
 
   const textareaRef = useRef(null);
-  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user);
       } else {
-        signInAnonymously(auth).catch((error) => {});
+        signInAnonymously(auth);
       }
     });
     return () => unsubscribe();
@@ -79,6 +80,7 @@ const ContactApp = ({ onBackHome }) => {
             timestamp: doc.data().timestamp?.toDate() || new Date(0),
           }))
           .sort((a, b) => a.timestamp - b.timestamp);
+
         setMessages([
           {
             fromMe: false,
@@ -86,7 +88,6 @@ const ContactApp = ({ onBackHome }) => {
           },
           ...fetchedMessages,
         ]);
-      } catch (error) {
       } finally {
         setTimeout(() => setIsLoading(false), 1000);
       }
@@ -129,7 +130,6 @@ const ContactApp = ({ onBackHome }) => {
       ]);
       setInputValue("");
       if (textareaRef.current) textareaRef.current.style.height = "44px";
-    } catch (error) {
     } finally {
       setIsSending(false);
     }
@@ -170,7 +170,7 @@ const ContactApp = ({ onBackHome }) => {
       } else {
         setAdminError("❌ Login ou mot de passe incorrect !");
       }
-    } catch (error) {
+    } catch {
       setAdminError("❌ Erreur serveur, réessayez.");
     }
   };
@@ -184,7 +184,7 @@ const ContactApp = ({ onBackHome }) => {
         timestamp: doc.data().timestamp?.toDate() || new Date(0),
       }));
       setAdminMessages(fetched.sort((a, b) => b.timestamp - a.timestamp));
-    } catch (error) {}
+    } catch {}
   };
 
   const handleAdminLogout = () => {
@@ -215,118 +215,43 @@ const ContactApp = ({ onBackHome }) => {
 
       <div className="contact-messages">
         {isLoading ? (
-          <div className="loading-screen">
-            <div className="spinner"></div>
-            <p>Chargement...</p>
-          </div>
+          <LoadingScreen />
         ) : isAdmin ? (
-          selectedMessage ? (
-            <div className="admin-detail">
-              <div className="admin-header">
-                <IconButton
-                  icon={faArrowLeft}
-                  onClick={() => setSelectedMessage(null)}
-                />
-              </div>
-              <div className="admin-message">
-                <p className="admin-userid">
-                  Utilisateur : {selectedMessage.userId}
-                </p>
-                <p className="admin-text">{selectedMessage.text}</p>
-              </div>
-            </div>
-          ) : (
-            <div className="admin-panel">
-              <div className="admin-list">
-                {adminMessages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className="admin-card"
-                    onClick={() => setSelectedMessage(msg)}
-                  >
-                    <div className="admin-content">
-                      <p className="admin-text-preview">
-                        {msg.text.slice(0, 100)}...
-                      </p>
-                      <p className="admin-time">
-                        {msg.timestamp.toLocaleString()}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )
+          <AdminPanel
+            adminMessages={adminMessages}
+            selectedMessage={selectedMessage}
+            onSelect={setSelectedMessage}
+            onBack={() => setSelectedMessage(null)}
+          />
         ) : (
-          <>
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`message ${msg.fromMe ? "from-me" : "from-them"}`}
-              >
-                {msg.text.split("\n").map((line, idx) => (
-                  <span key={idx}>
-                    {line}
-                    <br />
-                  </span>
-                ))}
-              </div>
-            ))}
-            <div ref={messagesEndRef}></div>
-          </>
+          <ContactMessages messages={messages} />
         )}
       </div>
 
       {!isAdmin && (
-        <div className="contact-input-area">
-          <textarea
-            ref={textareaRef}
-            className="contact-textarea"
-            placeholder="Écris ton message..."
-            value={inputValue}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            rows={1}
-          />
-          <button
-            className="send-button"
-            onClick={handleSend}
-            disabled={isSending}
-          >
-            {isSending ? (
-              <div className="mini-spinner"></div>
-            ) : (
-              <FontAwesomeIcon icon={faPaperPlane} />
-            )}
-          </button>
-        </div>
+        <ContactInput
+          inputValue={inputValue}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          onSend={handleSend}
+          isSending={isSending}
+          textareaRef={textareaRef}
+        />
       )}
 
       {showAdminLogin && (
-        <div className="admin-login-modal">
-          <input
-            type="email"
-            placeholder="Login admin"
-            value={adminEmail}
-            onChange={(e) => setAdminEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Mot de passe"
-            value={adminPassword}
-            onChange={(e) => setAdminPassword(e.target.value)}
-          />
-          {adminError && <p className="admin-error">{adminError}</p>}
-          <button onClick={handleAdminLogin}>Se connecter</button>
-          <button
-            onClick={() => {
-              setShowAdminLogin(false);
-              setAdminError("");
-            }}
-          >
-            Annuler
-          </button>
-        </div>
+        <AdminLogin
+          email={adminEmail}
+          password={adminPassword}
+          onEmailChange={(e) => setAdminEmail(e.target.value)}
+          onPasswordChange={(e) => setAdminPassword(e.target.value)}
+          onLogin={handleAdminLogin}
+          onCancel={() => {
+            setShowAdminLogin(false);
+            setAdminError("");
+          }}
+          error={adminError}
+        />
       )}
     </div>
   );

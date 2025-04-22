@@ -10,13 +10,7 @@ import { faGithub, faSpotify } from "@fortawesome/free-brands-svg-icons";
 import Wallpaper from "./components/Wallpaper/Wallpaper";
 import SlideToUnlock from "./components/SlideToUnlock/SlideToUnlock";
 import HomeScreen from "./components/HomeScreen/HomeScreen";
-import SettingsApp from "./components/apps/SettingsApp/SettingsApp";
-import ContactApp from "./components/apps/ContactApp/ContactApp";
-import ProjectsApp from "./components/apps/ProjectsApp/ProjectsApp";
-import GitHubApp from "./components/apps/GitHubApp/GitHubApp";
-import SkillsApp from "./components/apps/SkillsApp/SkillsApp";
-import SpotifyApp from "./components/apps/SpotifyApp/SpotifyApp";
-import DevCounterApp from "./components/apps/Calendev/Calendev";
+import { appRoutes } from "./routes";
 import logoLight from "./assets/images/logo-light.png";
 import logoDark from "./assets/images/logo-dark.png";
 import tapSound from "./assets/sound/tap.mp3";
@@ -77,7 +71,7 @@ function App() {
     { name: "Skills", icon: faUserGear, id: "skills" },
     { name: "GitHub", icon: faGithub, id: "github" },
     { name: "Spotify", icon: faSpotify, id: "spotify" },
-    { name: "Calendev", icon: faCode, id: "devcounter" },
+    { name: "Calendev", icon: faCode, id: "calendev" },
   ];
 
   const handleOpenApp = (app) => {
@@ -86,35 +80,28 @@ function App() {
   };
 
   const renderApp = () => {
+    if (!openedApp) return null;
+
+    const AppComponent = appRoutes[openedApp.id];
+    if (!AppComponent) return null;
+
     const appProps = { onBackHome: () => setOpenedApp(null) };
-    switch (openedApp?.id) {
-      case "settings":
-        return (
-          <SettingsApp
-            {...appProps}
-            isDark={isDark}
-            toggleTheme={() => setIsDark((prev) => !prev)}
-            isSoundOn={isSoundOn}
-            toggleSound={() => setIsSoundOn((prev) => !prev)}
-            isAnimationPaused={isAnimationPaused}
-            toggleAnimation={() => setIsAnimationPaused((prev) => !prev)}
-          />
-        );
-      case "contact":
-        return <ContactApp {...appProps} />;
-      case "projects":
-        return <ProjectsApp {...appProps} />;
-      case "github":
-        return <GitHubApp {...appProps} />;
-      case "skills":
-        return <SkillsApp {...appProps} />;
-      case "spotify":
-        return <SpotifyApp {...appProps} />;
-      case "devcounter":
-        return <DevCounterApp {...appProps} />;
-      default:
-        return null;
+
+    if (openedApp.id === "settings") {
+      return (
+        <AppComponent
+          {...appProps}
+          isDark={isDark}
+          toggleTheme={() => setIsDark((prev) => !prev)}
+          isSoundOn={isSoundOn}
+          toggleSound={() => setIsSoundOn((prev) => !prev)}
+          isAnimationPaused={isAnimationPaused}
+          toggleAnimation={() => setIsAnimationPaused((prev) => !prev)}
+        />
+      );
     }
+
+    return <AppComponent {...appProps} />;
   };
 
   return (

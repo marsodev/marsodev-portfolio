@@ -156,10 +156,7 @@
 }
 
 .admin-login-modal {
-  position: fixed;
-  top: 20%;
-  left: 10%;
-  right: 10%;
+  margin-top: 20px;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   border-radius: 12px;
