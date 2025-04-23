@@ -4,7 +4,7 @@ import {
   faArrowLeft,
   faBatteryThreeQuarters,
 } from "@fortawesome/free-solid-svg-icons";
-import IconButton from "../ui/IconButton/IconButton";
+import IconButton from "../IconButton/IconButton";
 
 const TopBar = ({ time, onBackToLanding }) => {
   return (

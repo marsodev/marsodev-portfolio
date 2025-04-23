@@ -1,9 +1,9 @@
 import { useRef } from "react";
-import reactBlue from "../../assets/images/react.png";
-import reactRed from "../../assets/images/reactred.png";
-import reactYellow from "../../assets/images/reactyellow.png";
-import reactGreen from "../../assets/images/reactgreen.png";
-import reactPurple from "../../assets/images/reactpurple.png";
+import reactBlue from "../../../assets/images/react.png";
+import reactRed from "../../../assets/images/reactred.png";
+import reactYellow from "../../../assets/images/reactyellow.png";
+import reactGreen from "../../../assets/images/reactgreen.png";
+import reactPurple from "../../../assets/images/reactpurple.png";
 
 const icons = [reactBlue, reactRed, reactYellow, reactGreen, reactPurple];
 

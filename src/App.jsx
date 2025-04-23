@@ -7,9 +7,9 @@ import {
   faCode,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faSpotify } from "@fortawesome/free-brands-svg-icons";
-import Wallpaper from "./components/Wallpaper/Wallpaper";
-import SlideToUnlock from "./components/SlideToUnlock/SlideToUnlock";
-import HomeScreen from "./components/HomeScreen/HomeScreen";
+import Wallpaper from "./components/ui/Wallpaper/Wallpaper";
+import SlideToUnlock from "./components/ui/SlideToUnlock/SlideToUnlock";
+import HomeScreen from "./components/ui/HomeScreen/HomeScreen";
 import { appRoutes } from "./routes";
 import logoLight from "./assets/images/logo-light.png";
 import logoDark from "./assets/images/logo-dark.png";
