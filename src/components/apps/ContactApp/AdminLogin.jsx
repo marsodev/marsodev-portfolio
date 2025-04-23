@@ -25,7 +25,9 @@ const AdminLogin = ({
       />
       {error && <p className="admin-error">{error}</p>}
       <button onClick={onLogin}>Se connecter</button>
-      <button onClick={onCancel}>Annuler</button>
+      <button className="red-bg" onClick={onCancel}>
+        Annuler
+      </button>
     </div>
   );
 };

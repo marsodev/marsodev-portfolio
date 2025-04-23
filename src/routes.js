@@ -5,6 +5,7 @@ import GitHubApp from "./components/apps/GitHubApp/GitHubApp";
 import SkillsApp from "./components/apps/SkillsApp/SkillsApp";
 import SpotifyApp from "./components/apps/SpotifyApp/SpotifyApp";
 import Calendev from "./components/apps/Calendev/Calendev";
+import SwipeGameApp from "./components/apps/SwipeGameApp/SwipeGameApp";
 
 export const appRoutes = {
   settings: SettingsApp,
@@ -14,4 +15,5 @@ export const appRoutes = {
   skills: SkillsApp,
   calendev: Calendev,
   spotify: SpotifyApp,
+  swipegame: SwipeGameApp,
 };

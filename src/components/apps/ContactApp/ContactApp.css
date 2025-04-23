@@ -157,7 +157,6 @@
 
 .admin-login-modal {
   margin-top: 20px;
-  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   border-radius: 12px;
   padding: 20px;
@@ -176,16 +175,31 @@
   color: var(--text-color);
   font-size: 1rem;
   outline: none;
+  text-align: center;
+}
+
+.admin-login-modal input::placeholder {
+  color: var(--text-color);
+  opacity: 0.6;
 }
 
 .admin-login-modal button {
   padding: 10px;
-  background: var(--app-bg);
+  background: rgb(73, 203, 151);
   border: none;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
   color: var(--text-color);
+  transition: all 0.2s ease-in-out;
+}
+
+.admin-login-modal .red-bg {
+  background: rgb(203, 73, 73);
+}
+
+.admin-login-modal button:hover {
+  opacity: 0.8;
 }
 
 .admin-error {

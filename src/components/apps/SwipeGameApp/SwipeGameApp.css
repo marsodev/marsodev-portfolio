@@ -1,0 +1,96 @@
+.swipe-game-app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 15px;
+  color: var(--text-color);
+}
+
+.swipe-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.swipe-header h2 {
+  font-weight: 600;
+}
+
+.swipe-score {
+  font-size: 1.4rem;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.swipe-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.swipe-direction {
+  font-size: 3rem;
+  font-weight: bold;
+  background-color: var(--app-bg);
+  border-radius: 15px;
+  padding: 30px 60px;
+  margin-bottom: 20px;
+  transition: background-color 0.2s ease-in-out, transform 0.2s;
+}
+
+.swipe-direction.correct {
+  background-color: #4caf50 !important;
+  color: white;
+}
+
+.swipe-direction.wrong {
+  background-color: #f44336 !important;
+  color: white;
+}
+
+.shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-8px);
+  }
+  50% {
+    transform: translateX(8px);
+  }
+  75% {
+    transform: translateX(-8px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.swipe-footer {
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.75;
+  margin-top: auto;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  color: var(--text-color);
+}
+
+@media (max-width: 480px) {
+  .swipe-direction {
+    font-size: 2.2rem;
+    padding: 20px 40px;
+  }
+
+  .swipe-score {
+    font-size: 1.2rem;
+  }
+}

@@ -5,6 +5,7 @@ import {
   faFolderOpen,
   faUserGear,
   faCode,
+  faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faSpotify } from "@fortawesome/free-brands-svg-icons";
 import Wallpaper from "./components/ui/Wallpaper/Wallpaper";
@@ -72,6 +73,7 @@ function App() {
     { name: "GitHub", icon: faGithub, id: "github" },
     { name: "Spotify", icon: faSpotify, id: "spotify" },
     { name: "Calendev", icon: faCode, id: "calendev" },
+    { name: "SwipeGame", icon: faArrowRight, id: "swipegame" },
   ];
 
   const handleOpenApp = (app) => {
